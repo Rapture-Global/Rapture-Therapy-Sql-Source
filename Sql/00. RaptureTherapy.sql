@@ -105,7 +105,7 @@ BEGIN
 END
 ELSE
 BEGIN
-    PRINT N' There was One or More Errors Executing the Sql.';
+    PRINT N' One or More Errors Occurred Executing the Sql.';
 
     IF @@TRANCOUNT > 0
         ROLLBACK TRANSACTION;
