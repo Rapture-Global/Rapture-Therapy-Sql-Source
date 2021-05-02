@@ -122,6 +122,8 @@ DROP TABLE [Dad].RaptureTherapyDatabaseVersions;
 
 DROP TABLE [Dad].UserEMails;
 
+DROP TABLE [Dad].UserStatuses;
+
 DROP TABLE [Dad].Users;
 
 */
