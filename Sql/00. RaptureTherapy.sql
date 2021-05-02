@@ -19,7 +19,7 @@
 
 :SETVAR Schema                          "Dad"
 
-:SETVAR RaptureTherapyDatabaseName      "[IdentityInvestigation]"
+:SETVAR RaptureTherapyDatabaseName      "[RaptureTherapy]"
 
 :SETVAR EadentIdentitySqlFolder         "\Projects\Eadent\Eadent-Identity-Sql-Source\Sql"
 
