@@ -17,7 +17,7 @@
 -- Some Variables.
 --------------------------------------------------------------------------------
 
-:SETVAR Schema                          "Dad"
+:SETVAR Schema                          "Dad_Identity"
 
 :SETVAR RaptureTherapyDatabaseName      "[RaptureTherapy]"
 
@@ -79,9 +79,30 @@ BEGIN
         Patch                       Int NOT NULL,
         Build                       Int NOT NULL,
         Description                 NVarChar(128) NOT NULL,
-        CreatedDateTimeUtc          DateTime2(7) NOT NULL
+        ReleasedDateTimeUtc         DateTime2(7) NOT NULL,
+        InstalledDateTimeUtc        DateTime2(7) NOT NULL
     );
 END
+GO
+
+DECLARE @Error AS Int = @@ERROR;
+IF (@Error != 0)
+BEGIN
+    IF @@TRANCOUNT > 0
+        ROLLBACK TRANSACTION;
+    BEGIN TRANSACTION;
+    SET CONTEXT_INFO 0x01;
+END
+GO
+
+--------------------------------------------------------------------------------
+-- Insert Version.
+--------------------------------------------------------------------------------
+
+INSERT INTO $(Schema).RaptureTherapyDatabaseVersions
+    (Major, Minor, Patch, Build, Description, ReleasedDateTimeUtc, InstalledDateTimeUtc)
+VALUES
+    (0,     0,     0,     3,     N'Alpha Build.', N'1927-04-29 19:27:07', GetUtcDate());
 GO
 
 DECLARE @Error AS Int = @@ERROR;
@@ -120,20 +141,26 @@ GO
 
 /*
 
-DROP TABLE [Dad].RaptureTherapyDatabaseVersions;
+:SETVAR Schema      "Dad_Identity"
 
-DROP TABLE [Dad].UserRoles;
+DROP TABLE $(Schema).RaptureTherapyDatabaseVersions;
 
-DROP TABLE [Dad].Roles;
+DROP TABLE $(Schema).UserRoles;
 
-DROP TABLE [Dad].UserEMails;
+DROP TABLE $(Schema).Roles;
 
-DROP TABLE [Dad].UserSignIns;
+DROP TABLE $(Schema).UserEMails;
 
-DROP TABLE [Dad].Users;
+DROP TABLE $(Schema).UserSignIns;
 
-DROP TABLE [Dad].UserStatuses;
+DROP TABLE $(Schema).UserAudits;
 
-DROP TABLE [Dad].SignInStatuses;
+DROP TABLE $(Schema).Users;
+
+DROP TABLE $(Schema).UserStatuses;
+
+DROP TABLE $(Schema).SignInStatuses;
+
+DROP SCHEMA $(Schema);
 
 */
