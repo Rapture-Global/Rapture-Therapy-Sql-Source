@@ -57,6 +57,7 @@ BEGIN
     BEGIN TRANSACTION;
     SET CONTEXT_INFO 0x01;
 END
+GO
 
 --------------------------------------------------------------------------------
 -- Include the Eadent Identity Sql.
@@ -91,6 +92,7 @@ BEGIN
     BEGIN TRANSACTION;
     SET CONTEXT_INFO 0x01;
 END
+GO
 
 --------------------------------------------------------------------------------
 -- Check for Errors.
@@ -126,8 +128,12 @@ DROP TABLE [Dad].Roles;
 
 DROP TABLE [Dad].UserEMails;
 
+DROP TABLE [Dad].UserSignIns;
+
 DROP TABLE [Dad].Users;
 
 DROP TABLE [Dad].UserStatuses;
+
+DROP TABLE [Dad].SignInStatuses;
 
 */
