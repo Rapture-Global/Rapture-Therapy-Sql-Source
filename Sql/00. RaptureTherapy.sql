@@ -21,8 +21,6 @@
 
 :SETVAR RaptureTherapyDatabaseName		"[IdentityInvestigation]"
 
-:SETVAR EadentIdentitySql				"\Projects\Eadent\Eadent-Identity-Sql-Source\Sql\00. EadentIdentity.sql"
-
 :SETVAR EadentIdentitySqlFolder			"\Projects\Eadent\Eadent-Identity-Sql-Source\Sql"
 
 --------------------------------------------------------------------------------
@@ -64,7 +62,7 @@ END
 -- Include the Eadent Identity Sql.
 --------------------------------------------------------------------------------
 
-:R $(EadentIdentitySql)
+:R $(EadentIdentitySqlFolder)"\00. EadentIdentity.sql"
 
 --------------------------------------------------------------------------------
 -- Create Tables if/as appropriate.
@@ -122,8 +120,8 @@ GO
 
 DROP TABLE [Dad].RaptureTherapyDatabaseVersions;
 
-DROP TABLE [Dad].Users;
-
 DROP TABLE [Dad].UserEMails;
+
+DROP TABLE [Dad].Users;
 
 */
