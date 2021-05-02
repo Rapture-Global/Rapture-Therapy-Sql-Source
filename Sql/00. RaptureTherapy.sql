@@ -1,5 +1,5 @@
-﻿--------------------------------------------------------------------------------
--- Copyright © 2010+ Éamonn Anthony Duffy. All Rights Reserved.
+--------------------------------------------------------------------------------
+-- Copyright © 2021+ Éamonn Anthony Duffy. All Rights Reserved.
 --------------------------------------------------------------------------------
 --
 -- Created:	Éamonn A. Duffy, 2-May-2021.
@@ -9,14 +9,37 @@
 -- Assumptions:
 --
 --	0.	The Sql Server Database has already been Created by some other means,
---		ans has been selected for Use.
+--		and has been selected for Use.
 --
 --------------------------------------------------------------------------------
 
+--------------------------------------------------------------------------------
 -- Some Variables.
+--------------------------------------------------------------------------------
+
 :SETVAR Schema							"Dad"
 
-:SETVAR EadentIdentitySqlFolder			"\Projects\Eadent-Identity-Sql-Source\Sql"
+:SETVAR RaptureTherapyDatabaseName		"[IdentityInvestigation]"
+
+:SETVAR EadentIdentitySql				"\Projects\Eadent\Eadent-Identity-Sql-Source\Sql\00. EadentIdentity.sql"
+
+:SETVAR EadentIdentitySqlFolder			"\Projects\Eadent\Eadent-Identity-Sql-Source\Sql"
+
+--------------------------------------------------------------------------------
+-- Select the Correct Database.
+--------------------------------------------------------------------------------
+
+USE $(RaptureTherapyDatabaseName)
+GO
+
+--------------------------------------------------------------------------------
+-- Begin the Main Transacttoin.
+--------------------------------------------------------------------------------
+
+SET CONTEXT_INFO	0x00;
+
+BEGIN TRANSACTION
+GO
 
 --------------------------------------------------------------------------------
 -- Create Schema if/as appropriate.
@@ -28,33 +51,79 @@ BEGIN
 END
 GO
 
+DECLARE @Error AS Int = @@ERROR;
+IF (@Error != 0)
+BEGIN
+	IF @@TRANCOUNT > 0
+		ROLLBACK TRANSACTION;
+	BEGIN TRANSACTION;
+	SET CONTEXT_INFO 0x01;
+END
+
 --------------------------------------------------------------------------------
 -- Include the Eadent Identity Sql.
 --------------------------------------------------------------------------------
 
-:R "$(EadentIdentitySqlFolder)\00. EadentIdentity.sql"
+:R $(EadentIdentitySql)
 
 --------------------------------------------------------------------------------
 -- Create Tables if/as appropriate.
 --------------------------------------------------------------------------------
--- TODO: Investigate further the potential requirement for ON PRIMARY.
---------------------------------------------------------------------------------
 
-IF OBJECT_ID('*objectName*', 'U') IS NOT NULL
+IF OBJECT_ID(N'$(Schema).RaptureTherapyDatabaseVersions', N'U') IS NULL
 BEGIN
-	CREATE TABLE $(Schema).DatabaseVersion
+	CREATE TABLE $(Schema).RaptureTherapyDatabaseVersions
 	(
-		DatabaseVersionId           Integer CONSTRAINT PK_DatabaseVersion PRIMARY KEY IDENTITY(0, 1) NOT NULL,
-		Major                       Integer NOT NULL,
-		Minor                       Integer NOT NULL,
-		Patch						Integer NOT NULL.
-		Build                       Integer NOT NULL,
-		Description                 NVarChar(128) NOT NULL,
+		DatabaseVersionId           Int NOT NULL CONSTRAINT PK_$(Schema)_RaptureTherapyDatabaseVersions PRIMARY KEY IDENTITY(0, 1),
+		Major                       Int NOT NULL,
+		Minor                       Int NOT NULL,
+		Patch						Int NOT NULL,
+		Build                       Int NOT NULL,
+		Description					NVarChar(128) NOT NULL,
 		CreatedDateTimeUtc          DateTime2(7) NOT NULL
 	);
+END
+GO
+
+DECLARE @Error AS Int = @@ERROR;
+IF (@Error != 0)
+BEGIN
+	IF @@TRANCOUNT > 0
+		ROLLBACK TRANSACTION;
+	BEGIN TRANSACTION;
+	SET CONTEXT_INFO 0x01;
+END
+
+--------------------------------------------------------------------------------
+-- Check for Errors.
+--------------------------------------------------------------------------------
+
+IF CONTEXT_INFO() = 0x00
+BEGIN
+	PRINT N'The Sql Executed Successfully.';
+
+	IF @@TRANCOUNT > 0
+		COMMIT TRANSACTION;
+END
+ELSE
+BEGIN
+	PRINT N' There was One or More Errors Executing the Sql.';
+
+	IF @@TRANCOUNT > 0
+		ROLLBACK TRANSACTION;
 END
 GO
 
 --------------------------------------------------------------------------------
 -- End Of File.
 --------------------------------------------------------------------------------
+
+/*
+
+DROP TABLE [Dad].RaptureTherapyDatabaseVersions;
+
+DROP TABLE [Dad].Users;
+
+DROP TABLE [Dad].UserEMails;
+
+*/
