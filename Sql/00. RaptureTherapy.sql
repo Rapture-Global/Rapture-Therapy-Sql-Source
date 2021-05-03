@@ -101,7 +101,7 @@ GO
 INSERT INTO $(Schema).RaptureTherapyDatabaseVersions
     (Major, Minor, Patch, Build, Description, ReleasedDateTimeUtc, InstalledDateTimeUtc)
 VALUES
-    (0,     0,     0,     7,     N'Alpha Build.', N'1927-04-29 19:27:07', GetUtcDate());
+    (0,     0,     0,     8,     N'Alpha Build.', N'1927-04-29 19:27:07', GetUtcDate());
 GO
 
 DECLARE @Error AS Int = @@ERROR;
