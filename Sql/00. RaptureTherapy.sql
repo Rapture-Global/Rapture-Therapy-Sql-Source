@@ -16,7 +16,7 @@
 -- Some Variables.
 --------------------------------------------------------------------------------
 
-:SETVAR Schema                          "Dad_Identity"
+:SETVAR Schema                          "Dad"
 
 :SETVAR RaptureTherapyDatabaseName      "[RaptureTherapy]"
 
@@ -101,7 +101,7 @@ GO
 INSERT INTO $(Schema).RaptureTherapyDatabaseVersions
     (Major, Minor, Patch, Build, Description, ReleasedDateTimeUtc, InstalledDateTimeUtc)
 VALUES
-    (0,     0,     0,     8,     N'Alpha Build.', N'1927-04-29 19:27:07', GetUtcDate());
+    (0,     0,     0,     9,     N'Alpha Build.', N'1927-04-29 19:27:07', GetUtcDate());
 GO
 
 DECLARE @Error AS Int = @@ERROR;
@@ -140,29 +140,9 @@ GO
 
 /*
 
-:SETVAR Schema      "Dad_Identity"
+:SETVAR Schema      "Dad"
 
 DROP TABLE $(Schema).RaptureTherapyDatabaseVersions;
-
-DROP TABLE $(Schema).UserRoles;
-
-DROP TABLE $(Schema).Roles;
-
-DROP TABLE $(Schema).PasswordResets;
-
-DROP TABLE $(Schema).UserEMails;
-
-DROP TABLE $(Schema).UserSessions;
-
-DROP TABLE $(Schema).UserAudits;
-
-DROP TABLE $(Schema).Users;
-
-DROP TABLE $(Schema).UserStatuses;
-
-DROP TABLE $(Schema).SignInStatuses;
-
-DROP TABLE $(Schema).PasswordVersions;
 
 DROP SCHEMA $(Schema);
 
