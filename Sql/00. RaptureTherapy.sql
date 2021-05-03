@@ -8,8 +8,7 @@
 --
 -- Assumptions:
 --
---  0.  The Sql Server Database has already been Created by some other means,
---      and has been selected for Use.
+--  0.  The Sql Server Database has already been Created by some other means.
 --
 --------------------------------------------------------------------------------
 
@@ -102,7 +101,7 @@ GO
 INSERT INTO $(Schema).RaptureTherapyDatabaseVersions
     (Major, Minor, Patch, Build, Description, ReleasedDateTimeUtc, InstalledDateTimeUtc)
 VALUES
-    (0,     0,     0,     3,     N'Alpha Build.', N'1927-04-29 19:27:07', GetUtcDate());
+    (0,     0,     0,     4,     N'Alpha Build.', N'1927-04-29 19:27:07', GetUtcDate());
 GO
 
 DECLARE @Error AS Int = @@ERROR;
@@ -160,6 +159,8 @@ DROP TABLE $(Schema).Users;
 DROP TABLE $(Schema).UserStatuses;
 
 DROP TABLE $(Schema).SignInStatuses;
+
+DROP TABLE $(Schema).PasswordVersions;
 
 DROP SCHEMA $(Schema);
 
