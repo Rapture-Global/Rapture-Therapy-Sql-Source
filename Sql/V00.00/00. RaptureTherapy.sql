@@ -20,7 +20,7 @@
 
 :SETVAR RaptureTherapyDatabaseName      "[RaptureTherapy]"
 
-:SETVAR EadentIdentitySqlFolder         "\Projects\Eadent\Eadent-Identity-Sql-Source\Sql"
+:SETVAR EadentIdentitySqlFolder         "\Projects\Eadent\Eadent-Identity-Sql-Source\Sql\V00.00"
 
 --------------------------------------------------------------------------------
 -- Select the Correct Database.
