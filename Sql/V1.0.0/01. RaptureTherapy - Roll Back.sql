@@ -6,7 +6,7 @@
 --
 -- Created: Éamonn A. Duffy, 2-May-2021.
 --
--- Updated: Éamonn A. Duffy, 5-May-2022.
+-- Updated: Éamonn A. Duffy, 7-May-2022.
 --
 -- Purpose: Roll Back Script for the Main Sql for the Rapture Therapy Sql Server Database.
 --
@@ -34,8 +34,11 @@
 
 IF OBJECT_ID(N'$(Schema).RaptureTherapyDatabaseVersions', N'U') IS NOT NULL
 BEGIN
-    DELETE FROM $(Schema).RaptureTherapyDatabaseVersions
-    WHERE Major = $(DatabaseVersionMajor) AND Minor = $(DatabaseVersionMinor) AND Patch = $(DatabaseVersionPatch) AND Build = N'$(DatabaseVersionBuild)';
+	IF EXISTS (SELECT 1 FROM $(Schema).RaptureTherapyDatabaseVersions WHERE Major = $(DatabaseVersionMajor) AND Minor = $(DatabaseVersionMinor) AND Patch = $(DatabaseVersionPatch) AND Build = N'$(DatabaseVersionBuild)')
+	BEGIN
+		DELETE FROM $(Schema).RaptureTherapyDatabaseVersions
+		WHERE Major = $(DatabaseVersionMajor) AND Minor = $(DatabaseVersionMinor) AND Patch = $(DatabaseVersionPatch) AND Build = N'$(DatabaseVersionBuild)';
+	END
 END
 GO
 
